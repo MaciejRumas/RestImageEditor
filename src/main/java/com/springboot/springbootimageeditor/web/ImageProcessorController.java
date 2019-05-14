@@ -7,6 +7,7 @@ import org.json.simple.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -148,6 +149,35 @@ public class ImageProcessorController {
                     HttpStatus.NOT_ACCEPTABLE, "One of the arguments is not correct!"
             );
         }
+    }
+
+    public byte[] getGreyScale(String id)throws Exception
+    {
+            BufferedImage clone = deepCopy(imageMap.get(id));
+
+            int rgb, r, g, b, R, G, B;
+            for(int i =0;i<clone.getWidth();i++)
+            {
+                for(int j =0;j<clone.getHeight();j++)
+                {
+                    rgb = clone.getRGB(i, j);
+                    r = (rgb>>16) & 0xff;
+                    g = (rgb>>8) & 0xff;
+                    b = (rgb) & 0xff;
+                    R = (int) (r * 0.29);
+                    G = (int) (g * 0.587);
+                    B = (int) (b * 0.114);
+                    Color grey = new Color(R + G + B, R + G + B, R + G + B);
+                    clone.setRGB(i, j, grey.getRGB());
+                }
+            }
+            BufferedImage image = new BufferedImage(clone.getWidth(), clone.getHeight(), BufferedImage.TYPE_INT_RGB);
+            Graphics2D bg = image.createGraphics();
+
+            bg.drawImage(clone, 0, 0, null);
+            bg.dispose();
+
+            return bufferedImageToByteArray(image);
     }
 
 }

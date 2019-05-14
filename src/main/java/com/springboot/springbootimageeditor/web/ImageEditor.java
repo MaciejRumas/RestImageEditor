@@ -76,13 +76,27 @@ public class ImageEditor {
             try {
                 return imageProcessorController.getCroppedImage(id, start, stop, width, height);
             }catch(ResponseStatusException e){
-                throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "One of the arguments is not correct!");
+                throw new ResponseStatusException(e.getStatus(), e.getMessage());
             }
         }
         else{
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "entity not found");
         }
     }
+
+
+    @RequestMapping(value = "/image/{id}/greyscale", method = RequestMethod.GET, produces = MediaType.IMAGE_PNG_VALUE)
+    public byte[] getRescaledImage(@PathVariable String id)  throws Exception {
+        if(imageProcessorController.imageMapContains(id)){
+            return imageProcessorController.getGreyScale(id);
+        }
+        else{
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Image not found");
+        }
+    }
+
+
+
 
 
 }
