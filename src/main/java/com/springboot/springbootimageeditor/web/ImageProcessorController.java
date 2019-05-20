@@ -136,8 +136,8 @@ public class ImageProcessorController {
 
         for (int i = 0; i < 256; i++) {
             R[i] /= maxR;
-            G[i] /= maxR;
-            B[i] /= maxR;
+            G[i] /= maxG;
+            B[i] /= maxB;
 
             rObject.put(i, R[i]);
             gObject.put(i, G[i]);

@@ -19,8 +19,8 @@ public class GaussianFilter {
 
     protected float radius;
     protected Kernel kernel;
-    private static int CLAMP_EDGES = 1;
-    private static int WRAP_EDGES = 2;
+    private static final int CLAMP_EDGES = 1;
+    private static final int WRAP_EDGES = 2;
 
     public GaussianFilter() {
         this(2, 1f);
